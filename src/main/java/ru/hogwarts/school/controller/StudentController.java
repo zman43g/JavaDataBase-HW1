@@ -37,8 +37,8 @@ public class StudentController {
 
     @Operation(summary = "Добавление ученика")
 
-    public Student createStudent(@RequestBody Student student) {
-        return studentService.addStudent(student);
+    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
+        return ResponseEntity.ok(studentService.addStudent(student));
     }
 
     @PutMapping
@@ -52,6 +52,7 @@ public class StudentController {
         }
         return ResponseEntity.ok(foundStudent);
     }
+
 
     @DeleteMapping("/{id}")
 
@@ -88,7 +89,7 @@ public class StudentController {
 
     @Operation(summary = "Получение факультета по id ученика")
 
-    public ResponseEntity<Faculty> getFaculty(@PathVariable Long studentId) {
+    public ResponseEntity<Faculty> getFacultyByStudentId(@PathVariable Long studentId) {
         return ResponseEntity.ok(studentService.findFacultyByStudentId(studentId));
     }
 
