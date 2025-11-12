@@ -1,10 +1,12 @@
 package ru.hogwarts.school.service;
 
 import java.util.Collection;
+import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.entity.StudentsForSQLResponse;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
@@ -46,4 +48,15 @@ public class StudentService {
         return findStudent(id).getFaculty();
     }
 
+    public short getQuantityOfStudentsOfHogwarts() {
+        return studentRepository.getQuantityOfStudents();
+    }
+
+    public float getAverageAgeOfStudentsOfHogwarts() {
+        return studentRepository.getAverageAgeOfStudents();
+    }
+
+    public List<StudentsForSQLResponse> getFiveStudentsWithHighId() {
+        return studentRepository.getFiveStudentsWithHighId();
+    }
 }
