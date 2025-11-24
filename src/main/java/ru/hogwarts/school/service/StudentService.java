@@ -2,11 +2,14 @@ package ru.hogwarts.school.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.OptionalDouble;
+import java.util.stream.IntStream;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.entity.StudentsForSQLResponse;
 import ru.hogwarts.school.model.Faculty;
@@ -50,7 +53,7 @@ public class StudentService {
     }
 
     public Collection<Student> findByAgeBetween(int minAge, int maxAge) {
-        logger.info("Was invoked findByAgeBetween method with minAge {}, and maxAge {}", minAge,maxAge);
+        logger.info("Was invoked findByAgeBetween method with minAge {}, and maxAge {}", minAge, maxAge);
         return studentRepository.findByAgeBetween(minAge, maxAge);
     }
 
@@ -73,4 +76,26 @@ public class StudentService {
         logger.info("Was invoked  getFiveStudentsWithHighId method");
         return studentRepository.getFiveStudentsWithHighId();
     }
+
+    public List<Student> findAllStudentsWithFirstLetterA() {
+        logger.info("Was invoked findAllStudentsWithFirstLetterA method ");
+        return studentRepository.findAll().stream()
+                .sorted()
+                .filter(n -> n.getName().toUpperCase().startsWith("A"))
+                .toList();
+    }
+
+    public Double averageAgeOfStudents() {
+        logger.info("Was invoked averageAgeOfStudents method ");
+        return studentRepository.findAll().stream()
+                .mapToDouble(Student::getAge)
+                .average()
+                .getAsDouble();
+    }
+
+    public int sumFromOneToMillion() {
+        logger.info("Was invoked sumFromOneToMillion method ");
+        return IntStream.rangeClosed(1, 1_000_000).sum();
+    }
+
 }

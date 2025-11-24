@@ -1,7 +1,9 @@
 package ru.hogwarts.school.service;
 
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,4 +48,13 @@ public class FacultyService {
         logger.info("Was invoked findByColorOrName method for color {}, and name {}", color, name);
         return facultyRepository.findByColorIgnoreCaseOrNameIgnoreCase(color, name);
     }
+
+    public String longestFacultyName() {
+        logger.info("Was invoked longestFacultyName method");
+        return facultyRepository.findAll().stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length)).get();
+    }
+
+
 }
