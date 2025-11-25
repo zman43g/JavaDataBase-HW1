@@ -11,6 +11,10 @@ import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.OptionalDouble;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/student")
@@ -89,6 +93,30 @@ public class StudentController {
 
     public ResponseEntity<Faculty> getFacultyByStudentId(@PathVariable Long studentId) {
         return ResponseEntity.ok(studentService.findFacultyByStudentId(studentId));
+    }
+
+    @GetMapping(path = "/allStudentsFirstLetterA")
+
+    @Operation(summary = "Получение всех учеников имя которых начинается с буквы А")
+
+    public ResponseEntity<List<Student>> getAllStudentsWithFirstLetterA() {
+        return ResponseEntity.ok(studentService.findAllStudentsWithFirstLetterA());
+    }
+
+    @GetMapping(path = "/averageAge")
+
+    @Operation(summary = "Получение среднего возраста всех учеников")
+
+    public ResponseEntity<Double> getAverageAge() {
+        return ResponseEntity.ok(studentService.averageAgeOfStudents());
+    }
+
+    @GetMapping(path = "/calculationHW")
+
+    @Operation(summary = "Расчёт суммы чисел от единицы до миллиона ")
+
+    public ResponseEntity<Integer> calulationForHW() {
+      return ResponseEntity.ok(studentService.sumFromOneToMillion());
     }
 
 
