@@ -9,7 +9,6 @@ import java.util.stream.IntStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.entity.StudentsForSQLResponse;
 import ru.hogwarts.school.model.Faculty;
@@ -96,6 +95,14 @@ public class StudentService {
     public int sumFromOneToMillion() {
         logger.info("Was invoked sumFromOneToMillion method ");
         return IntStream.rangeClosed(1, 1_000_000).sum();
+    }
+
+    public List<Student> getAllStudents() {
+        logger.info("Was invoked getAllStudents method ");
+        return studentRepository.findAll();
+    }
+    public synchronized void printStudentName(String name) {
+        System.out.println(name);
     }
 
 }
