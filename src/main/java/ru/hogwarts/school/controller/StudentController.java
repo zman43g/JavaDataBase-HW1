@@ -116,7 +116,64 @@ public class StudentController {
     @Operation(summary = "Расчёт суммы чисел от единицы до миллиона ")
 
     public ResponseEntity<Integer> calulationForHW() {
-      return ResponseEntity.ok(studentService.sumFromOneToMillion());
+        return ResponseEntity.ok(studentService.sumFromOneToMillion());
+    }
+
+    @GetMapping(path = "/students/print-parallel")
+    @Operation(summary = "Печать имён учеников с использованием потоков ")
+
+    public void printParallelNamesOfStudents() {
+        List<Student> students = studentService.getAllStudents();
+        System.out.println("Начало вывода имен студентов:");
+
+        System.out.println("Первый ученик " + students.get(0).getName());
+        System.out.println("Второй ученик " + students.get(1).getName());
+
+        new Thread(() -> {
+            System.out.println("Третий ученик " + students.get(2).getName());
+            System.out.println("Четвертый ученик " + students.get(3).getName());
+        }).start();
+
+        new Thread(() -> {
+            System.out.println("Пятый ученик " + students.get(4).getName());
+            System.out.println("Шестой ученик " + students.get(5).getName());
+        }).start();
+
+    }
+
+
+    @GetMapping(path = "/students/print-synchronized")
+    @Operation(summary = "Печать имён учеников в синхронном режиме ")
+
+    public void printSynchronizedNamesOfStudents() {
+        System.out.println("Начало вывода имен студентов:");
+        List<Student> students = studentService.getAllStudents();
+
+        studentService.printStudentName("Первый ученик " + students.get(0).getName());
+        studentService.printStudentName("Второй ученик " + students.get(1).getName());
+
+        Thread firstThread = new Thread(() -> {
+
+            studentService.printStudentName("Третий ученик " + students.get(2).getName());
+            studentService.printStudentName("Четвертый ученик " + students.get(3).getName());
+        });
+
+        Thread secondThread = new Thread(() -> {
+            studentService.printStudentName("Пятый ученик " + students.get(4).getName());
+            studentService.printStudentName("Шестой ученик " + students.get(5).getName());
+        });
+
+        firstThread.start();
+        secondThread.start();
+
+        try {
+            firstThread.join();
+            secondThread.join();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+
     }
 
 
